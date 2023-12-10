@@ -5,20 +5,12 @@ This repo dives into how historical implementations of redlining effects differe
 
 ### What's in this repo? 
 .
-|
-├── practice-files/            # files for initial practice writing HTML and CSS
-|  └── practice-html.html      # example HTML file
-|  └── practice-markdown.qmd   # example markdown file
-|  └── practice-styles.css     # a blank stylesheet for writing CSS, which will be applied to `practice-html.html` & `practice-markdown.md`
-|
-├── report/                    # files for building an example report
-|  └── cuteness-report.qmd     # a Quarto markdown "report" to style
-|  └── images/                 # images of cute animals, which are rendered in `cuteness-report.qmd`
-|  └── _extensions/            # a folder of Quarto extensions, which includes the Font Awesome Extension for rendering fa icons
-|
+├── Scripts/                    
+|  └── redlining_env_analysis.Rmd     
+|  └── redlining_env_analysis.html            
 ├── README.md
 ├── .gitignore
-└── cute-cats-dogs.Rproj
+└── redlining-analysis.Rproj
 
 
 #### Where is the data?
