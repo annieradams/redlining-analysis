@@ -19,3 +19,7 @@ This repo dives into how historical implementations of redlining effects differe
 ├── README.md
 ├── .gitignore
 └── cute-cats-dogs.Rproj
+
+
+#### Where is the data?
+Due to the size of the data, data will not be stored in this repo. The data will instead be stored locally and included in the gitignore. 
