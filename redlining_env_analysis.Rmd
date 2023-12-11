@@ -1,8 +1,8 @@
 ---
-title: "Environmental Factor's effect on Redlined Communities"
+title: "Environmental Factor's relationship with Redlined Communities"
 author: "Annie Adams"
 output: html_document
-date: "Dec 10, 2023"
+date: "2023-12-10"
 editor_options: 
   markdown: 
     wrap: 72
@@ -45,12 +45,12 @@ observations of biodiversity.
 
 
 
-## Overview
+##Overview
 This repo will explore both the relationships between census groups/HOLC groups with environmental factors. We will first look at the relationship between census groups and environmental factors. Using historical redlining data, we will then explore similar environmental factors as we did with census groups, but with HOLC grades instead. We will see if we can find any noticeable differences amongst different HOLC grades to see if redlining still plays an effect in these neighborhoods. We will explore these differences through both visual and numerical analysis. 
 
 
 
-## Datasets:
+### Datasets:
 
 #### EJScreen
 
@@ -86,9 +86,7 @@ Information on the data can be found
     Robert K. Nelson and Edward L. Ayers, accessed October 17, 2023,
     <https://dsl.richmond.edu/panorama/redlining/>
 
-## Analysis
-
-### Load Necessary packages and data
+### Lets start by loading in the necessary packages and data.
 
 ```{r }
 library(terra)
@@ -107,29 +105,29 @@ library(kableExtra)
 
 Read in EJScreen data and filter to Los Angeles County
 
-```{r echo=TRUE, results='hide'}
-ejscreen <- st_read("../data/EJSCREEN_2023_BG_StatePct_with_AS_CNMI_GU_VI.gdb/") 
+```{r }
+ejscreen <- st_read("data/EJSCREEN_2023_BG_StatePct_with_AS_CNMI_GU_VI.gdb/") 
 
 la_data <- ejscreen %>% filter(CNTY_NAME == "Los Angeles County") # filter data to LA
 ```
 
 Import redlining information for Los Angeles.
 
-```{r echo=TRUE, results='hide'}
-
+```{r}
 LA_redlining <- st_read("https://dsl.richmond.edu/panorama/redlining/static/downloads/geojson/CALosAngeles1939.geojson") %>%
   st_make_valid()
 ```
 
 Read in bird data from Global Biodiversity Information Facility.
 
-```{r echo=TRUE, results='hide'}
-bird <- st_read("../data/gbif-birds-LA") 
+```{r}
+bird <- st_read("data/gbif-birds-LA") 
 ```
 
-### Create wastewater map across census groups
 
-Different environmental factors affect different censuses in disproportionate ways. To visualize this, we will map wastewater discharge.To see the upper values for this variables, we will select census block groups that are greater than the 95th percentile.
+Different environmental factors affect different censuses in
+disproportionate ways. To visualize this, we will map wastewater
+discharge.To see the upper values for this variables, we will select census block groups that are greater than the 95th percentile.
 
 ```{r }
 wastewater_95_perc <- la_data %>% filter(P_PWDIS > 95)
@@ -155,7 +153,6 @@ percentile was reported.
 
 
 
-#### Low income percentage in census groups
 
 Let's now look more closely at other relationships amongst block groups
 and environmental factors. We will start by finding the percent of
@@ -175,7 +172,7 @@ the population considered low income is greater than 5%.
 
 
 
-#### Census groups and air quality experiences
+
 
 We will continue to look at percentages amongst block groups for some
 different environmental factors, specifically what percent of census
@@ -191,9 +188,6 @@ perc_above80_pm25_pnpl <- round(length(above_80_pm25_pnpl$P_PM25)/ length(la_dat
 print(paste0("The percent of census block groups above the 80th percentile for both PM 2.5 and Superfund proximity is ", perc_above80_pm25_pnpl, "%."))
 
 ```
-
-
-#### Mapping Redlined Neighborhoods by HOLC grades
 
 We will now utilize the LA Redlining data we loaded in. Let's start
 with some exploratory analysis to get a better idea of what our data
@@ -216,11 +210,10 @@ redlining_map <-ggplot()+
   labs(fill='HOLC Grade', x = "Longitude", y = "Latitude", title = "Historical redlining boundaries colored by HOLC grade") +
   theme_minimal()
 redlining_map
-
-ggsave(filename = "../Results/HOLC_grade_map.png", plot = last_plot())
+  
 ```
 
-#### Census groups within HOLC grades
+
 
 Now that we have visualized the geographical relationships of different
 HOLC grades in LA county, lets look a bit more into the specifics of census groups within the different HOLC grades. We will start by
@@ -238,9 +231,6 @@ census_group_HOLC <-nrow(cen_holc) # find number of census block groups that fal
 
 print(paste0("There are ",census_group_HOLC, " census block groups that fall within HOLC grade areas." ))
 ```
-
-
-#### Environmental experiences within HOLC grades
 
 We looked into how different environmental factors impact census groups,
 but now lets do the same with HOLC grades instead of census groups.
@@ -288,7 +278,7 @@ life expectancy, as well as being more prone to cancer risk exposure.
 
 
 
-#### Biodiversity and HOLC Grades
+### Biodiversity and HOLC Grades
 
 The variables we have looked into thus far have had a lot to do with air
 quality/life expectancy. Let's look into the more recreational side of
@@ -321,7 +311,7 @@ join these datasets together, first making sure their crs' match. Then,
 we will create find the percentage of bird observations within each HOLC
 grade for the year 2022.
 
-```{r }
+```{r}
 st_crs(LA_redlining) == st_crs(bird) # check to make sure CRS match
 bird_redlining<- st_join(y = LA_redlining, x = bird, join = st_intersects, left = FALSE) # join bird data and HOLc grade data by intersection
 bird_redlining_2022 <- bird_redlining %>% filter(year == 2022) # filter for 2022
@@ -330,10 +320,11 @@ bird_redlining_2022<- bird_redlining_2022 %>%
   group_by(holc_grade) %>%                  
   summarise(count = n()) %>%        #count number of obs within each holc grade      
   mutate(percentage = (count / sum(count))*100 ) #compare specific HOLC grade to total obs and make into a percent
+bird_redlining_2022
 ```
 
 
-#### Visualize Biodiversity amongst HOLC grades
+
 Lets plot the results from our table above to get a better idea about
 how bird observations differe across HOLC grades.
 
@@ -357,7 +348,7 @@ ggplot(bird_redlining_2022, aes(x = holc_grade, y = percentage, fill = holc_grad
 
 
 
-#### Is this what we expected ??
+##### Is this what we expected ??
 
 These results were very surprising to me. After reading *Bird
 Biodiversity Reports Reflect Citie's Redlined Past,* I expected HOLC
