@@ -117,7 +117,7 @@ Import redlining information for Los Angeles.
 
 ```{r echo=TRUE, results='hide'}
 
-LA_redlining <- st_read("https://dsl.richmond.edu/panorama/redlining/static/downloads/geojson/CALosAngeles1939.geojson") %>%
+LA_redlining <- st_read("https://dsl.richmond.edu/panorama/redlining/static/citiesData/CALosAngeles1939/geojson.json") %>%
   st_make_valid()
 ```
 
@@ -211,7 +211,7 @@ holc_colors <- c(
 
 redlining_map <-ggplot()+ 
   #geom_sf(data = la_data, fill = NA)+
-  geom_sf(data = LA_redlining, aes(fill = holc_grade))+
+  geom_sf(data = LA_redlining, aes(fill = grade))+
    scale_fill_manual(values = holc_colors)+
   labs(fill='HOLC Grade', x = "Longitude", y = "Latitude", title = "Historical redlining boundaries colored by HOLC grade") +
   theme_minimal()
@@ -262,7 +262,7 @@ redline_ej_join<- st_join(LA_redlining, la_data) # join redline and la data
 
 
 redline_ej_join_test <- redline_ej_join %>%
-  group_by(holc_grade) %>%
+  group_by(grade) %>%
   summarise( #create average variable for each of the four catergories we are looking into, drop NAs and calculate mean
     "Average low income percent" = mean(LOWINCPCT, na.rm = TRUE), 
     "Average percent PM 25" = mean(P_PM25, na.rm = TRUE),
@@ -327,7 +327,7 @@ bird_redlining<- st_join(y = LA_redlining, x = bird, join = st_intersects, left 
 bird_redlining_2022 <- bird_redlining %>% filter(year == 2022) # filter for 2022
 
 bird_redlining_2022<- bird_redlining_2022 %>%
-  group_by(holc_grade) %>%                  
+  group_by(grade) %>%                  
   summarise(count = n()) %>%        #count number of obs within each holc grade      
   mutate(percentage = (count / sum(count))*100 ) #compare specific HOLC grade to total obs and make into a percent
 ```
@@ -347,7 +347,7 @@ holc_colors <- c(
   "D" = "#F2B8C6"   
 )
 
-ggplot(bird_redlining_2022, aes(x = holc_grade, y = percentage, fill = holc_grade))+
+ggplot(bird_redlining_2022, aes(x = grade, y = percentage, fill = grade))+
   geom_bar(stat = "identity")+
   scale_fill_manual(values = holc_colors)+
   labs( x = "HOLC grade", y = "percentage of bird observations", fill = "HOLC grade", title = "Percentage of bird observations across HOLC grades")+
