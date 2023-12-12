@@ -1,11 +1,16 @@
 ---
 title: "Environmental Factor's effect on Redlined Communities"
 author: "Annie Adams"
-output: html_document
 date: "Dec 10, 2023"
-editor_options: 
-  markdown: 
-    wrap: 72
+output:
+  html_document:
+    print_df: paged
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
 ---
 
 ```{r setup, include=FALSE}
