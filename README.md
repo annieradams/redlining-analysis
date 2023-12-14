@@ -8,7 +8,11 @@ This repo dives into how historical implementations of redlining effects differe
 .
 ├── Scripts/                    
 |  └── redlining_env_analysis.Rmd     
-|  └── redlining_env_analysis.html            
+|  └── redlining_env_analysis.html
+├── Results/                    
+|  └── HOLC_grade_map.png    
+|  └── wastewater_map.png
+   └── bird_obs.png         
 ├── README.md
 ├── .gitignore
 └── redlining-analysis.Rproj
