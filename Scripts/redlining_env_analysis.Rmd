@@ -152,6 +152,7 @@ wastewater_map <-ggplot()+
   
 wastewater_map
 
+ggsave("Results/wastewater_map.png", plot = last_plot())
 ```
 
 This map allows us to visualize which areas of LA county have a higher
