@@ -152,7 +152,7 @@ wastewater_map <-ggplot()+
   
 wastewater_map
 
-ggsave("Results/wastewater_map.png", plot = last_plot())
+ggsave("../Results/wastewater_map.png", plot = last_plot())
 ```
 
 This map allows us to visualize which areas of LA county have a higher
@@ -358,6 +358,8 @@ ggplot(bird_redlining_2022, aes(x = grade, y = percentage, fill = grade))+
   scale_fill_manual(values = holc_colors)+
   labs( x = "HOLC grade", y = "percentage of bird observations", fill = "HOLC grade", title = "Percentage of bird observations across HOLC grades")+
   theme_minimal()
+
+ggsave("../Results/bird_obs.png", plot = last_plot())
 ```
 
 
