@@ -16,6 +16,8 @@ This repo dives into how historical implementations of redlining effects differe
 ├── README.md
 ├── .gitignore
 └── redlining-analysis.Rproj
+└── .DS_Store
+
 ```
 
 #### Where is the data?
